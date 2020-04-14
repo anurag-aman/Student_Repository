@@ -1,83 +1,87 @@
 """
-This is to test the function written in HW09 
+This is to test the function written in HW11
 @author: Anurag Aman
 """
 import unittest
-from HW09_Anurag_Aman import Repository
+from HW10_Anurag_Aman import Repository
 from typing import Dict , List
 
-
 class testFunctions(unittest.TestCase):
-    """ To implement different test cases"""
-    def test_student_pretty_table(self):
-        """This function is to test the student pretty table output"""
-        rep: Repository = Repository("/Users/anuragaman/Desktop/SSW810/test1")
-        expected:Dict = {'10103': ['10103','Baldwin, C', ['CS 501', 'SSW 564', 'SSW 567' ,'SSW 687']],
-                    '10115': ['10115', 'Wyatt, X', ['CS 545', 'SSW 564', 'SSW 567', 'SSW 687']],
-                    '10172': ['10172', 'Forbes, I', ['SSW 555', 'SSW 567']],
-                    '10175': ['10175', 'Erickson, D', [ 'SSW 564', 'SSW 567', 'SSW 687']],
-                    '10183': ['10183', 'Chapman, O', ['SSW 689']],
-                    '11399': ['11399', 'Cordova, I', ['SSW 540']],
-                    '11461': ['11461', 'Wright, U', ['SYS 611', 'SYS 750', 'SYS 800']],
-                    '11658': ['11658', 'Kelly, P', ['SSW 540']],
-                    '11714': ['11714', 'Morton, A', ['SYS 611', 'SYS 645']],
-                    '11788': ['11788', 'Fuller, E', ['SSW 540']]}
-
-        expected1:Dict = {
-                    '10103': ['10103','Baldwin, C', ['CS 501', 'SSW 564', 'SSW 567' ,'SSW 687']],
-                    '10115': ['10115', 'Wyatt, X', ['CS 545', 'SSW 564', 'SSW 567', 'SSW 687']],
-                    '10172': ['10172', 'Forbes, I', ['SSW 555', 'SSW 567']],
-                    '10175': ['10175', 'Erickson, D', [ 'SSW 564', 'SSW 567', 'SSW 687']],
-                    '10183': ['10183', 'Chapman, O', ['SSW 689']],
-                    '11399': ['11399', 'Cordova, I', ['SSW 540']],
-                    '11461': ['11461', 'Wright, U', ['SYS 611', 'SYS 750', 'SYS 800']],
-                    '11658': ['11658', 'Kelly, P', ['SSW 540']],
-                    '11714': ['11714', 'Morton, A', ['SYS 611', 'SYS 645']],
-                    }
-        res:Dict = {cwid: student.student_info() for cwid , student in rep._students.items()}
-        self.assertEqual(res, expected)
-        self.assertNotEqual(res , expected1)
+    def test_major_pretty_table(self) -> None:
+        """testing major pretty table"""
+        rep:Repository = Repository("/Users/anuragaman/Desktop/student_repository")
+        expected: Dict[str] = {
+            'SFEN': ['SFEN', ['SSW 540', 'SSW 555', 'SSW 810'], ['CS 501', 'CS 546']],
+            'CS': ['CS', ['CS 546', 'CS 570'], ['SSW 565', 'SSW 810']]
+        }
+       
+        res = {m: mj.major_info() for m, mj in rep._majors.items()}
         
+        self.assertEqual(expected, res)
+        
+  
+
+ 
+    def test_student_pretty_table(self) -> None:
+        """testing student table"""
+        rep: Repository = Repository("/Users/anuragaman/Desktop/student_repository")
+        res = list()
+        expected:List[str]  = [
+            ['10103', 'Jobs, S', 'SFEN', ['CS 501', 'SSW 810'], ['SSW 540', 'SSW 555'], [], 3.38],
+            ['10115', 'Bezos, J', 'SFEN', ['SSW 810'], ['SSW 540', 'SSW 555'], ['CS 501', 'CS 546'], 4.0], 
+            ['10183', 'Musk, E', 'SFEN', ['SSW 555', 'SSW 810'], ['SSW 540'], ['CS 501', 'CS 546'], 4.0], 
+            ['11714', 'Gates, B', 'CS', ['CS 546', 'CS 570', 'SSW 810'], [], [], 3.5], 
+        ]
+
+        for  cwid , student in rep._students.items():
+            res.append(student.student_info())
+            
+        self.assertEqual(expected, res)
+
+
+
     def test_instructor_pretty_table(self):
         """ This function is to test the instructor pretty table output"""
-        rep: Repository = Repository("/Users/anuragaman/Desktop/SSW810/test1")
-        expected:Dict = {
-            ('98765', 'Einstein, A', 'SFEN', 'SSW 567', 4),
-            ('98765', 'Einstein, A', 'SFEN', 'SSW 540', 3),
-            ('98764', 'Feynman, R', 'SFEN', 'SSW 564', 3),
-            ('98764', 'Feynman, R', 'SFEN', 'SSW 687', 3),
-            ('98764', 'Feynman, R', 'SFEN', 'CS 501', 1),
-            ('98764', 'Feynman, R', 'SFEN', 'CS 545', 1),
-            ('98763', 'Newton, I', 'SFEN', 'SSW 555', 1),
-            ('98763', 'Newton, I', 'SFEN', 'SSW 689', 1),
-            ('98760', 'Darwin, C', 'SYEN', 'SYS 800', 1),
-            ('98760', 'Darwin, C', 'SYEN', 'SYS 750', 1),
-            ('98760', 'Darwin, C', 'SYEN', 'SYS 611', 2),
-            ('98760', 'Darwin, C', 'SYEN', 'SYS 645', 1),
+        rep: Repository = Repository("/Users/anuragaman/Desktop/student_repository")
+        expected:Dict[str] = {
+            ('98764', 'Cohen, R', 'SFEN', 'CS 546', 1),
+            ('98763', 'Rowland, J', 'SFEN', 'SSW 810', 4),
+            ('98763', 'Rowland, J', 'SFEN', 'SSW 555', 1),
+            ('98762', 'Hawking, S', 'CS', 'CS 501', 1),
+            ('98762', 'Hawking, S', 'CS', 'CS 546', 1),
+            ('98762', 'Hawking, S', 'CS', 'CS 570', 1)
         }
-        expected1: Dict={
-            ('98765', 'Einstein, A', 'SFEN', 'SSW 567', 4),
-            ('98765', 'Einstein, A', 'SFEN', 'SSW 540', 3),
-            ('98764', 'Feynman, R', 'SFEN', 'SSW 564', 3),
-            ('98764', 'Feynman, R', 'SFEN', 'SSW 687', 3),
-            ('98764', 'Feynman, R', 'SFEN', 'CS 501', 1),
-            ('98764', 'Feynman, R', 'SFEN', 'CS 545', 1),
-            ('98763', 'Newton, I', 'SFEN', 'SSW 555', 1),
-            ('98763', 'Newton, I', 'SFEN', 'SSW 689', 1),
-            ('98760', 'Darwin, C', 'SYEN', 'SYS 800', 1),
-            ('98760', 'Darwin, C', 'SYEN', 'SYS 750', 1),
-            ('98760', 'Darwin, C', 'SYEN', 'SYS 611', 2),
-
-        }
+       
 
         res:Dict = {tuple(x) for  instructor in rep._instructors.values() for x in instructor.instructor_info()}
-        self.assertEqual( res , expected)
-        self.assertNotEqual( res , expected1)
+        self.assertEqual( res ,expected)
 
-        
+
+
+    def test_instructor_table_db(self) -> None:
+        """testing student grade summary pretty table"""
+        rep: Repository = Repository("/Users/anuragaman/Desktop/student_repository")
+
+        expected: List[str] = [
+            ('Bezos, J', '10115', 'SSW 810', 'A', 'Rowland, J'),
+            ('Bezos, J', '10115', 'CS 546', 'F', 'Hawking, S'),
+            ('Gates, B', '11714', 'SSW 810', 'B-', 'Rowland, J'),
+            ('Gates, B', '11714', 'CS 546', 'A', 'Cohen, R'),
+            ('Gates, B', '11714', 'CS 570', 'A-', 'Hawking, S'),
+            ('Jobs, S', '10103', 'SSW 810', 'A-', 'Rowland, J'),
+            ('Jobs, S', '10103', 'CS 501', 'B', 'Hawking, S'),
+            ('Musk, E', '10183', 'SSW 555', 'A', 'Rowland, J'),
+            ('Musk, E', '10183', 'SSW 810', 'A', 'Rowland, J')
+        ]
+
+        res = list()
+
+        for row in rep.instructor_table_db('/Users/anuragaman/Desktop/sqlite/810_startup.db'):
+            res.append(row)
+
+        self.assertEqual(expected, res)
 
 
 
 if __name__ == "__main__":
     unittest.main(exit=False, verbosity=2)
-

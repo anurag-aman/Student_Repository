@@ -3,7 +3,7 @@ This is to test the function written in HW11
 @author: Anurag Aman
 """
 import unittest
-from HW10_Anurag_Aman import Repository
+from Student_Repository_Anurag_Aman import Repository
 from typing import Dict , List
 
 class testFunctions(unittest.TestCase):
